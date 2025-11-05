@@ -1,0 +1,53 @@
+@import url('https://fonts.googleapis.com/css2?family=Stack+Sans+Notch:wght@200..700&display=swap');
+
+#container
+{
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-height: 98vh;
+}
+
+#titleDiv
+{
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    z-index: 4;
+}
+
+.titleClass
+{
+    font-family: "Stack Sans Notch", sans-serif;
+    font-optical-sizing: auto;
+    font-size: 100px;
+    color: red;
+    font-weight:300;
+    font-style: normal;
+
+}
+
+#enterButton
+{
+    width: 50%;
+    height: 50%;
+    transition-property: width, transform;
+    transition-duration: .5s , .5s;
+    transition-timing-function: ease-out, ease-out;
+}
+
+#enterButton:hover
+{
+    width: 55%;
+    transform: rotate(360deg);
+}
+
+#backgroundDiv
+{
+    position: absolute;
+    z-index: 1;
+}
