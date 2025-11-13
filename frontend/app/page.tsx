@@ -1,3 +1,4 @@
+'use client'
 import Image from "next/image";
 import "@/app/css/homeStyles.css";
 import PokemonCard from "@/app/components/cards/pokemonCard";
@@ -5,6 +6,13 @@ import {randomPosition} from "@/app/scripts/homepage-script";
 import { useState, useEffect } from "react";
 
 export default function Home() {
+  const [locationData, setLocationData] = useState<number[]>([]);
+  useEffect(() => {
+    let positions =  [];
+    positions = randomPosition();
+    setLocationData(positions);
+  }, []);
+  
   return (
     <html>
       <body>
@@ -19,8 +27,11 @@ export default function Home() {
             </Image>
           </div>
             <div id="backgroundDiv">
-              <img src=""></img>
-              <PokemonCard>
+              <PokemonCard
+              topValue = {locationData[0]}>
+            </PokemonCard>
+            <PokemonCard
+              topValue = {locationData[1]}>
             </PokemonCard>
             </div>
         </div>

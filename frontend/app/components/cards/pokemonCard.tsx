@@ -16,10 +16,7 @@ export default function PokemonCard({topValue, leftValue, rightValue, bottomValu
             height={300}
             alt="No image available"
             style={{
-                marginTop:topValue,
-                marginLeft:leftValue,
-                marginRight: rightValue,
-                marginBottom: bottomValue
+                marginTop:topValue +"%"
                 }}></img>
         </div>
         </>
