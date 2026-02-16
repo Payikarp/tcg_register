@@ -1,16 +1,13 @@
 package com.tcg_card_register.Tcg_Register.models;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import org.springframework.beans.factory.annotation.Autowired;
 
 @Entity
 @Table(name ="users")
 public class UserModel {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
     private String username;

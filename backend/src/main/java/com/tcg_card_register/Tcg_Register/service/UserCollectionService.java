@@ -1,0 +1,22 @@
+package com.tcg_card_register.Tcg_Register.service;
+
+import com.tcg_card_register.Tcg_Register.dto.UserCollectionDTO;
+import com.tcg_card_register.Tcg_Register.models.UserCollectionModel;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+
+@Service
+public interface UserCollectionService {
+
+    public List<UserCollectionModel> getAllUserCollections(long userId);
+
+    public UserCollectionModel getUserCollectionsById(long user_id, long collectionId);
+
+    public UserCollectionModel createUserCollection(UserCollectionDTO userDTO);
+
+    public UserCollectionModel updateUserCollection(Long collection_id, String name, Long total);
+
+    public UserCollectionModel deleteUserCollection(Long collection_id);
+
+}

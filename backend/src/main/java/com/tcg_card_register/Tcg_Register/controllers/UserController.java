@@ -30,7 +30,7 @@ public class UserController {
         return userService.findUserById(id);
     }
 
-    @GetMapping("/create")
+    @PostMapping("/create")
     public UserModel registerUser(@RequestBody UserModel user) {return userService.createUser(user);}
 
     @PutMapping(value = "/update", consumes = "application/json")

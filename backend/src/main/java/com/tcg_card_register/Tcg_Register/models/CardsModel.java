@@ -1,16 +1,16 @@
 package com.tcg_card_register.Tcg_Register.models;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import org.springframework.beans.factory.annotation.Autowired;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "cards")
 public class CardsModel {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
     private String name;
@@ -149,4 +149,5 @@ public class CardsModel {
     public void setStatus(int status) {
         this.status = status;
     }
+
 }
