@@ -10,7 +10,7 @@ public interface IllustratorService {
 
     public IllustratorModel createIllustrator(IllustratorModel illustrator);
 
-    public IllustratorModel updateIllustrator(IllustratorModel illustrator,Long id);
+    public IllustratorModel updateIllustrator(IllustratorModel illustrator);
 
     public IllustratorModel deleteIllustrator(Long id);
 

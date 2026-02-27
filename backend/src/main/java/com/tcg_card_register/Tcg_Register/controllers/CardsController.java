@@ -21,10 +21,10 @@ public class CardsController {
     @PutMapping(value = "/update", consumes = "application/json")
     private CardsModel updateCard(@RequestBody  CardsModel card) {return cardService.updateCard(card);};
 
-    @DeleteMapping("/delete")
+    @DeleteMapping("/delete/{id}")
     private CardsModel deleteCard(@PathVariable  Long id) {return cardService.deleteCard(id);};
 
-    @GetMapping("/card/{id}")
+    @GetMapping("/{id}")
     private CardsModel findCardById(@PathVariable  Long id) {return cardService.findCardById(id);};
 
     @PostMapping("/create")

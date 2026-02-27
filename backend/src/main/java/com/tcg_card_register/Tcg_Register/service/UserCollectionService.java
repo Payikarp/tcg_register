@@ -15,8 +15,8 @@ public interface UserCollectionService {
 
     public UserCollectionModel createUserCollection(UserCollectionDTO userDTO);
 
-    public UserCollectionModel updateUserCollection(Long collection_id, String name, Long total);
+    public UserCollectionModel updateUserCollection(UserCollectionDTO userCollectionDTO);
 
-    public UserCollectionModel deleteUserCollection(Long collection_id);
+    public UserCollectionModel deleteUserCollection(Long collectionId);
 
 }

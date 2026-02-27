@@ -2,6 +2,8 @@ package com.tcg_card_register.Tcg_Register.service.implementation;
 
 import com.tcg_card_register.Tcg_Register.dto.CardCollectionDTO;
 import com.tcg_card_register.Tcg_Register.dto.UserCollectionDTO;
+import com.tcg_card_register.Tcg_Register.exceptions.DatabaseException;
+import com.tcg_card_register.Tcg_Register.exceptions.ResourceNotFoundException;
 import com.tcg_card_register.Tcg_Register.interfaces.CardCollectionRepository;
 import com.tcg_card_register.Tcg_Register.interfaces.CardsRepository;
 import com.tcg_card_register.Tcg_Register.interfaces.UserCollectionRepository;
@@ -15,7 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.UUID;
+import java.util.Optional;
 
 @Service
 public class CardCollectionImplementation implements CardCollectionService {
@@ -28,51 +30,52 @@ public class CardCollectionImplementation implements CardCollectionService {
     @Autowired
     private CardsRepository cardsRepository;
 
-    public List<CardCollectionModel> getCardsFromCollection(Long id) {
-        return cardCollectionRepository.findAll();
+    public CardsModel getCardFromCollection(long collectionId, long cardId) {
+        //UserModel user = userRepository.findById(collectionDTO.getUserId()).orElse(null);
+        UserCollectionModel userCollection = userCollectionRepository.findById(collectionId).orElseThrow(() -> new ResourceNotFoundException("User's collection not found."));;
+        CardsModel searchCard = cardsRepository.findById(cardId).orElseThrow(() -> new ResourceNotFoundException("Card not found."));
+        CardCollectionModel cardCollectionModel = cardCollectionRepository.findByCollectionIdAndCardId(userCollection,searchCard);
+        if(cardCollectionModel == null)
+        {
+            throw new ResourceNotFoundException("Card not found in collection.");
+        }
+        return cardsRepository.findById(cardCollectionModel.getCardId().getId()).orElseThrow(() -> new ResourceNotFoundException("Card not found in collection."));
     }
 
-    /*public CardsModel getCardFromCollection(UserCollectionModel collectionId, CardsModel cardId) {
-       return CCrepository.findByCollection_idAndCard_id(collectionId,cardId).orElse(null);
-    }*/
-
-    public boolean insertCardsToCollection(UserCollectionDTO collection) {
+    public String insertCardsToCollection(UserCollectionDTO collection) {
         List<CardCollectionDTO> cards = collection.getCards();
-        UserModel user = userRepository.findById(collection.getUserId()).orElse(null);
-        UserCollectionModel userCollection = userCollectionRepository.findById(collection.getCollectionId()).orElse(null);
-        if(user == null || userCollection == null)
-        {
-            return false;
-        }
-
+        UserModel user = userRepository.findById(collection.getUserId()).orElseThrow(() -> new ResourceNotFoundException(("Couldn't find the card trying to be inserted in the collection.")));
+        UserCollectionModel userCollection = userCollectionRepository.findById(collection.getCollectionId()).orElseThrow(() -> new ResourceNotFoundException("User's collection not found."));
+        //Insert card into the collection
         CardCollectionModel nCardCollection = new CardCollectionModel();
         nCardCollection.setCollectionId(userCollection);
         if(getIndividualCards(nCardCollection, cards))
         {
-            return true;
+            return "Cards added correctly.";
         }
-        return false;
+        throw new DatabaseException("Couldn't add the cards.");
     }
 
-    public boolean updateCardsFromCollection(UserCollectionDTO collection) {
-        List<CardCollectionDTO> cards = collection.getCards();
-        UserModel user = userRepository.findById(collection.getUserId()).orElse(null);
-        UserCollectionModel userCollection = userCollectionRepository.findById(collection.getCollectionId()).orElse(null);
-        if(user == null || userCollection == null)
+    public CardsModel updateCardsFromCollection(long collectionId, long cardId) {
+        UserCollectionModel userCollection = userCollectionRepository.findById(collectionId).orElseThrow(() -> new ResourceNotFoundException("User's collection not found."));
+        CardsModel searchCard = cardsRepository.findById(cardId).orElseThrow(() -> new ResourceNotFoundException("Card not found."));
+        CardCollectionModel cardCollectionModel = cardCollectionRepository.findByCollectionIdAndCardId(userCollection,searchCard);
+        if(cardCollectionModel == null)
         {
-            return false;
+            throw new ResourceNotFoundException("Card not found in collection.");
         }
-        /*CardCollectionModel existingCardCollection = cardCollectionRepository.findById_CollectionId(collection.getCollectionId());
-        if(getIndividualCards(existingCardCollection, cards))
-        {
-            return true;
-        }*/
-
-        return false;
+        CardsModel card = cardsRepository.findById(cardCollectionModel.getCardId().getId()).orElseThrow(() -> new ResourceNotFoundException("Card not found in collection."));
+        return cardsRepository.save(card);
     }
 
-    public CardsModel deleteCardFromCollection(UUID id, Long card_id) {
-        return null;
+    public String deleteCardsFromCollection(UserCollectionDTO userCollectionDTO) {
+        List<CardCollectionDTO> cardList = userCollectionDTO.getCards();
+        UserCollectionModel userCollection = userCollectionRepository.findById(userCollectionDTO.getCollectionId()).orElseThrow(() -> new ResourceNotFoundException("User's collection not found."));
+        if(deleteCards(userCollection, cardList))
+        {
+            return "Cards deleted correctly.";
+        }
+        throw new DatabaseException("Couldn't add the cards.");
     }
 
     public boolean getIndividualCards(CardCollectionModel nCardCollection, List<CardCollectionDTO> cardList)
@@ -85,9 +88,21 @@ public class CardCollectionImplementation implements CardCollectionService {
         return true;
     }
 
+    public boolean deleteCards(UserCollectionModel userCollection, List<CardCollectionDTO> cardList)
+    {
+
+        for(CardCollectionDTO card : cardList)
+        {
+            CardsModel infoCard = cardsRepository.findById(card.getCard()).orElse(null);
+            CardCollectionModel cardEntry = cardCollectionRepository.findByCollectionIdAndCardId(userCollection, infoCard);
+            cardCollectionRepository.delete(cardEntry);
+        }
+        return true;
+    }
+
     public CardCollectionModel findCollection(long collectionId)
     {
-        UserCollectionModel userCollection = userCollectionRepository.findById(collectionId).orElse(null);
+        UserCollectionModel userCollection = userCollectionRepository.findById(collectionId).orElseThrow(() -> new ResourceNotFoundException("User's collection not found."));
         if(userCollection == null)
         {
             return null;

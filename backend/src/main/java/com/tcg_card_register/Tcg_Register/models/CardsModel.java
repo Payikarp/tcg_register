@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 @Entity
 @Table(name = "cards")
@@ -21,31 +22,38 @@ public class CardsModel {
     private int weakness;
     private int resistance;
     private int retreat;
-    private String illustrator;
+    private int illustrator;
     private String image;
     private int rarity;
     private int status;
+    private int setNumber;
+    private UUID setExpansion;
 
     @Autowired
     public CardsModel() {
     }
 
-    public CardsModel(long id, String name, int type, String firstmove, String secondmove, String ability, int weakness, int resistance, int retreat, String illustrator, String image, int rarity, int status) {
-        this.id = id;
-        this.name = name;
-        this.type = type;
-        this.firstmove = firstmove;
-        this.secondmove = secondmove;
-        this.ability = ability;
-        this.weakness = weakness;
-        this.resistance = resistance;
-        this.retreat = retreat;
-        this.illustrator = illustrator;
-        this.image = image;
-        this.rarity = rarity;
+    public CardsModel(UUID setExpansion, int setNumber, int status, int rarity, String image, int illustrator, int retreat, int resistance, int weakness, String ability, String secondmove, String firstmove, int type, String name, long id) {
+        this.setExpansion = setExpansion;
+        this.setNumber = setNumber;
         this.status = status;
+        this.rarity = rarity;
+        this.image = image;
+        this.illustrator = illustrator;
+        this.retreat = retreat;
+        this.resistance = resistance;
+        this.weakness = weakness;
+        this.ability = ability;
+        this.secondmove = secondmove;
+        this.firstmove = firstmove;
+        this.type = type;
+        this.name = name;
+        this.id = id;
     }
 
+    public int getSetNumber() {
+        return setNumber;
+    }
     public long getId() {
         return id;
     }
@@ -82,7 +90,7 @@ public class CardsModel {
         return retreat;
     }
 
-    public String getIllustrator() {
+    public int getIllustrator() {
         return illustrator;
     }
 
@@ -96,6 +104,10 @@ public class CardsModel {
 
     public int getStatus() {
         return status;
+    }
+
+    public UUID getSetExpansion() {
+        return setExpansion;
     }
 
     public void setId(long id) {
@@ -134,7 +146,7 @@ public class CardsModel {
         this.retreat = retreat;
     }
 
-    public void setIllustrator(String illustrator) {
+    public void setIllustrator(int illustrator) {
         this.illustrator = illustrator;
     }
 
@@ -150,4 +162,11 @@ public class CardsModel {
         this.status = status;
     }
 
+    public void setSetExpansion(UUID setExpansion) {
+        this.setExpansion = setExpansion;
+    }
+
+    public void setSetNumber(int setNumber) {
+        this.setNumber = setNumber;
+    }
 }

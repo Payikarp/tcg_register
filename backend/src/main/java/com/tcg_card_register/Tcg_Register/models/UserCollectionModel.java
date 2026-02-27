@@ -10,7 +10,7 @@ public class UserCollectionModel {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    private String collection_name;
+    private String collectionName;
 
     private long userId;
     private long totalCards;
@@ -20,9 +20,9 @@ public class UserCollectionModel {
     public UserCollectionModel() {
     }
 
-    public UserCollectionModel(long id, String collection_name, long user_id, long totalCards, int status) {
+    public UserCollectionModel(long id, String collectionName, long user_id, long totalCards, int status) {
         this.id = id;
-        this.collection_name = collection_name;
+        this.collectionName = collectionName;
         this.userId = user_id;
         this.totalCards = totalCards;
         this.status = status;
@@ -32,8 +32,8 @@ public class UserCollectionModel {
         return id;
     }
 
-    public String getCollection_name() {
-        return collection_name;
+    public String getCollectionName() {
+        return collectionName;
     }
 
     public long getUserId() {
@@ -52,8 +52,8 @@ public class UserCollectionModel {
         this.id = id;
     }
 
-    public void setCollection_name(String collection_name) {
-        this.collection_name = collection_name;
+    public void setCollectionName(String collectionName) {
+        this.collectionName = collectionName;
     }
 
     public void setUserId(long userId) {

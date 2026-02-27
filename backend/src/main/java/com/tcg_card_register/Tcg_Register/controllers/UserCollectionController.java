@@ -24,8 +24,8 @@ public class UserCollectionController {
     public UserCollectionModel createUserCollection(@RequestBody UserCollectionDTO userDTO) {return UCS.createUserCollection(userDTO);}
 
     @PutMapping(value = "/update", consumes = "application/json")
-    public UserCollectionModel updateUserCollection(@RequestBody UserCollectionModel collection) {return UCS.updateUserCollection(collection.getId(), collection.getCollection_name(), collection.getTotalCards());}
+    public UserCollectionModel updateUserCollection(@RequestBody UserCollectionDTO userCollectionDTO) {return UCS.updateUserCollection(userCollectionDTO);}
 
-    @DeleteMapping("/delete")
-    public UserCollectionModel deleteUserCollection(@RequestBody UserCollectionModel collection) {return UCS.deleteUserCollection(collection.getId());}
+    @DeleteMapping("/delete/{collectionId}")
+    public UserCollectionModel deleteUserCollection(@PathVariable long collectionId) {return UCS.deleteUserCollection(collectionId);}
 }

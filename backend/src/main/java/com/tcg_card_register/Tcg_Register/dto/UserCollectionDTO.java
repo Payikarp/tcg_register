@@ -8,13 +8,15 @@ public class UserCollectionDTO {
     private long collectionId;
     private long userId;
     private long cardTotal;
+    private int status;
     private List<CardCollectionDTO> cards;
 
-    public UserCollectionDTO(String collectionName, long collectionId, long userId, long cardTotal, List<CardCollectionDTO> cards) {
+    public UserCollectionDTO(String collectionName, long collectionId, long userId, long cardTotal, int status, List<CardCollectionDTO> cards) {
         this.collectionName = collectionName;
         this.collectionId = collectionId;
         this.userId = userId;
         this.cardTotal = cardTotal;
+        this.status = status;
         this.cards = cards;
     }
 
@@ -56,5 +58,13 @@ public class UserCollectionDTO {
 
     public void setCards(List<CardCollectionDTO> cards) {
         this.cards = cards;
+    }
+
+    public int getStatus() {
+        return status;
+    }
+
+    public void setStatus(int status) {
+        this.status = status;
     }
 }

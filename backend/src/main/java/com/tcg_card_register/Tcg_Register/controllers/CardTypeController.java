@@ -22,8 +22,8 @@ public class CardTypeController {
     @PostMapping("/create")
     public CardTypeModel createCardType(@RequestBody CardTypeModel cardtype) {return CTService.createCardType(cardtype);}
 
-    @PutMapping("/update/{id}")
-    public CardTypeModel updateCardType(@RequestBody CardTypeModel cardtype, @PathVariable Long id){return CTService.updateCardType(cardtype,id);}
+    @PutMapping(value = "/update", consumes = "application/json")
+    public CardTypeModel updateCardType(@RequestBody CardTypeModel cardtype){return CTService.updateCardType(cardtype);}
 
     @DeleteMapping("/delete/{id}")
     public CardTypeModel deleteCardType(@PathVariable Long id){return CTService.deleteCardType(id);}

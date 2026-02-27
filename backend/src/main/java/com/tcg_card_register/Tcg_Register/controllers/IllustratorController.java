@@ -23,8 +23,8 @@ public class IllustratorController {
     @PostMapping("/create")
     public IllustratorModel createIllustrator(@RequestBody IllustratorModel illustrator) {return illusService.createIllustrator(illustrator);}
 
-    @PutMapping(value = "/update/{id}", consumes = "application/json")
-    public IllustratorModel updateIllustrator(@PathVariable Long id, @RequestBody IllustratorModel illustrator) {return illusService.updateIllustrator(illustrator,id);}
+    @PutMapping(value = "/update", consumes = "application/json")
+    public IllustratorModel updateIllustrator(@RequestBody IllustratorModel illustrator) {return illusService.updateIllustrator(illustrator);}
 
     @DeleteMapping("/delete/{id}")
     public IllustratorModel deleteIllustrator(@PathVariable Long id) {return illusService.deleteIllustrator(id);}

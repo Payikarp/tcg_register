@@ -19,8 +19,8 @@ public class UserModel {
     @Autowired
     public  UserModel(){}
 
-    public UserModel(String username, String email, String password, int type, int status)
-    {
+    public UserModel(long id, String username, String email, String password, int type, int status) {
+        this.id = id;
         this.username = username;
         this.email = email;
         this.password = password;
@@ -32,7 +32,7 @@ public class UserModel {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(long id) {
         this.id = id;
     }
 

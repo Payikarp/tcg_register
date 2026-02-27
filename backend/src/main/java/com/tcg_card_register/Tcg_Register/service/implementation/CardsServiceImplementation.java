@@ -1,5 +1,8 @@
 package com.tcg_card_register.Tcg_Register.service.implementation;
 
+import com.tcg_card_register.Tcg_Register.exceptions.DatabaseException;
+import com.tcg_card_register.Tcg_Register.exceptions.ItemAlreadyInDatabaseException;
+import com.tcg_card_register.Tcg_Register.exceptions.ResourceNotFoundException;
 import com.tcg_card_register.Tcg_Register.interfaces.CardsRepository;
 import com.tcg_card_register.Tcg_Register.models.CardsModel;
 import com.tcg_card_register.Tcg_Register.models.UserModel;
@@ -16,20 +19,27 @@ public class CardsServiceImplementation implements CardsService {
 
     public CardsModel updateCard(CardsModel card)
     {
-        return cardRepository.save(card);
+        try
+        {
+            return cardRepository.save(card);
+        }catch (Exception exception)
+        {
+            throw new DatabaseException("Error saving to the database: "+ exception.getMessage());
+        }
     }
 
     @Override
     public CardsModel deleteCard(Long id) {
-        CardsModel card = cardRepository.findById(id).orElse(null);
-        if(card==null)
+        CardsModel card = cardRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Card not found."));
+        card.setStatus(2);
+        try
         {
-            return null;
-        }else
-        {
-            card.setStatus(2);
             return cardRepository.save(card);
+        }catch (Exception exception)
+        {
+            throw new DatabaseException("Error saving to the database: "+ exception.getMessage());
         }
+
     }
 
     @Override
@@ -39,12 +49,20 @@ public class CardsServiceImplementation implements CardsService {
 
     @Override
     public CardsModel findCardById(Long id) {
-        return cardRepository.findById(id).orElse(null);
+        return cardRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Card not found."));
     }
 
     @Override
     public CardsModel createCard(CardsModel card) {
-        return cardRepository.save(card);
+        CardsModel searchCard = cardRepository.findByNameAndSetExpansionAndSetNumber(card.getName(),card.getSetExpansion(),card.getSetNumber());
+        if(searchCard == null) { throw new ItemAlreadyInDatabaseException("The card already exists.");}
+        try
+        {
+            return cardRepository.save(card);
+        }catch (Exception exception)
+        {
+            throw new DatabaseException("Error saving to the database: "+ exception.getMessage());
+        }
     }
 
 }
